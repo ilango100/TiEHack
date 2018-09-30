@@ -10,7 +10,14 @@
     <style>
         #map {
             width: 100%;
-            height: 80%;
+            height: 90%;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
     </style>
 
@@ -64,9 +71,8 @@
         var map;
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 2,
-                center: { lat: 29.951412, lng: 122.317679 },
-                mapTypeId: 'terrain'
+                zoom: 5,
+                center: { lat: 34.006514, lng: 102.741230 },
             });
         }
 
@@ -83,10 +89,12 @@
     <select name="time" id="time" onchange="getdata(document.getElementById('date').value, this.value)">
         <option value="">Select time</option>
     </select>
+
     <div id="map"></div>
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=visualization&callback=initMap">
     </script>
+
 </body>
 
 </html>
