@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality Visualization</title>
+
+    <script>
+
+        function getdates() {
+            fetch("http://localhost:2000/getdates").then(
+                (resp) => {
+                    resp.json().then(
+                        (json) => {
+                            console.log(json)
+                            let datesel = document.getElementById("date")
+                            console.log(datesel)
+                            for (i in json) {
+                                datesel.add(new Option(json[i], json[i]))
+                            }
+                        }
+                    ).catch(
+                        (err) => {
+                            console.log(err)
+                        }
+                    )
+                }
+            ).catch(
+                (err) => {
+                    console.log(err)
+                }
+            )
+        }
+
+    </script>
+
+</head>
+
+<body onload="getdates()">
+
+    <select name="date" id="date" onchange="gettimes(this.value)">
+        <option value="">Select date</option>
+    </select>
+
+    <select name="time" id="time">
+        <option value="">Select time</option>
+    </select>
+
+</body>
+
+</html>
