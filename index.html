@@ -66,15 +66,15 @@
                     resp.json().then(
                         (json) => {
                             heatMapData.clear()
-                            document.getElementById("data").selectedIndex=0
                             for (i = 0; i < json.length; i++) {
                                 heatMapData.push({
                                     location: new google.maps.LatLng(json[i]["latitude"], json[i]["longitude"]),
-                                    weight: json[i]["co"],
+                                    weight: json[i][document.getElementById("data").selectedIndex],
                                 })
                             }
                             console.log(heatMapData)
                             setHeatMap(heatMapData)
+                            curData = json
                         }
                     ).catch(console.log)
                 }
@@ -84,18 +84,33 @@
         function setHeatMap(heatMapData) {
             hMap = new google.maps.visualization.HeatmapLayer({
                 "data": heatMapData,
-                // "dissipating": false,
+                "maxIntensity": 10,
+                "radius": 20,
+                "dissipating": false,
                 "map": map
             })
         }
 
-        var map, hMap, heatMapData;
+        var map, hMap, heatMapData, curData;
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 5,
+                zoom: 6,
                 center: { lat: 34.006514, lng: 102.741230 },
             });
             heatMapData = new google.maps.MVCArray()
+        }
+
+        function update(data) {
+            console.log(data)
+             heatMapData.clear()
+             for (i = 0; i < curData.length; i++) {
+                heatMapData.push({
+                    location: new google.maps.LatLng(curData[i]["latitude"], curData[i]["longitude"]),
+                    weight: curData[i][data],
+                })
+             }
+            console.log(heatMapData)
+            setHeatMap(heatMapData)
         }
 
     </script>
@@ -112,7 +127,7 @@
         <option value="">Select time</option>
     </select>
 
-    <select name="data" id="data">
+    <select name="data" id="data" onchange="update(this.value)" >
         <option value="co">CO</option>
         <option value="no2">NO2</option>
         <option value="o3">O3</option>
