@@ -20,13 +20,9 @@
                                 datesel.add(new Option(json[i], json[i]))
                             }
                         }
-                    ).catch(
-                        (err) => console.log(err)
-                    )
+                    ).catch(console.log)
                 }
-            ).catch(
-                (err) => console.log(err)
-            )
+            ).catch(console.log)
         }
 
         function gettimes(x) {
@@ -37,20 +33,26 @@
                         (json) => {
                             let timesel = document.getElementById("time")
                             for (i in timesel.options) {
-                                timesel.remove(i)
+                                if (i != 0)
+                                    timesel.remove(i)
                             }
                             for (i in json) {
                                 timesel.add(new Option(json[i], json[i]))
                             }
                             console.log(timesel.options)
                         }
-                    ).catch(
-                        (err) => console.log(err)
-                    )
+                    ).catch(console.log)
                 }
-            ).catch(
-                (err) => console.log(err)
-            )
+            ).catch(console.log)
+        }
+
+        function getdata(date, time) {
+            console.log(date, time)
+            fetch("http://localhost:2000/getdata?date=" + date + "&time=" + time).then(
+                (resp) => {
+                    resp.json().then(console.log).catch(console.log)
+                }
+            ).catch(console.log)
         }
 
     </script>
@@ -63,7 +65,7 @@
         <option value="">Select date</option>
     </select>
 
-    <select name="time" id="time">
+    <select name="time" id="time" onchange="getdata(document.getElementById('date').value, this.value)">
         <option value="">Select time</option>
     </select>
 
