@@ -21,15 +21,35 @@
                             }
                         }
                     ).catch(
-                        (err) => {
-                            console.log(err)
-                        }
+                        (err) => console.log(err)
                     )
                 }
             ).catch(
-                (err) => {
-                    console.log(err)
+                (err) => console.log(err)
+            )
+        }
+
+        function gettimes(x) {
+            console.log(x)
+            fetch("http://localhost:2000/gettimes?date=" + x).then(
+                (resp) => {
+                    resp.json().then(
+                        (json) => {
+                            let timesel = document.getElementById("time")
+                            for (i in timesel.options) {
+                                timesel.remove(i)
+                            }
+                            for (i in json) {
+                                timesel.add(new Option(json[i], json[i]))
+                            }
+                            console.log(timesel.options)
+                        }
+                    ).catch(
+                        (err) => console.log(err)
+                    )
                 }
+            ).catch(
+                (err) => console.log(err)
             )
         }
 
