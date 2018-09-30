@@ -13,7 +13,7 @@ def index():
 
 @app.route("/getdates",methods=["GET"])
 def senddates():
-    return json.dumps(list(map(str,(set(df.index.date)))))
+    return json.dumps(sorted(list(map(str,(set(df.index.date))))))
 
 @app.route("/gettimes",methods=["GET"])
 def sendtimes():
@@ -22,7 +22,7 @@ def sendtimes():
 #     df.index.time[df.index.date == request.args["date"]]
     dts = df.index[df.index.date == pd.to_datetime(request.args["date"]).date()].time
     dts = list(map(str,set(dts)))
-    return json.dumps(dts)
+    return json.dumps(sorted(dts))
 
 @app.route("/getdata",methods=["GET"])
 def senddata():
